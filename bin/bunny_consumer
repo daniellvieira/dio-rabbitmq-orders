@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require File.expand_path('../config/environment', __dir__)
+
+conn = Bunny.new(ENV['CLOUDAMQP_URL'])
+conn.start
+
+ch = conn.create_channel
+
+q = ch.queue('dio_service_orders.in', durable: true, auto_delete: false)
+
+puts "\nStarting consumer !"
+
+fanout_name = 'dio_users.out'
+q.bind(ch.exchange(fanout_name, type: 'fanout'))
+puts "[consumer] #{q.name} binds to #{fanout_name}"
+
+q.subscribe(manual_ack: true) do |delivery_info, metadata, payload|
+  puts "[delivery] infos: #{delivery_info}\n"
+  BunnyConsumer.call!(metadata, payload)
+  puts "[consumer] #{q.name} received #{metadata[:type]}\n"
+  puts "[consumer] from #{metadata[:app_id]}: #{payload}\n"
+end
+
+begin
+  while true
+    sleep(2)
+  end
+rescue Interrupt
+  conn.close
+  puts "\nShuttin down gracefully."
+  exit
+end

@@ -1,0 +1,425 @@
+  [1m[35m (253.2ms)[0m  [1m[35mCREATE DATABASE "dio_service_orders_dev" ENCODING = 'unicode'[0m
+  [1m[35m (133.1ms)[0m  [1m[35mCREATE DATABASE "dio_service_orders_test" ENCODING = 'unicode'[0m
+  [1m[35m (28.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (17.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6804733439492730525)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateCustomer (20220813191043)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (18.9ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "name" character varying NOT NULL, "email" character varying, "identification_code" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (7.0ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_customers_on_email" ON "customers"  ("email")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220813191043"]]
+  [1m[35m (3.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateServiceOrders (20220813191340)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (16.8ms)[0m  [1m[35mCREATE TABLE "service_orders" ("id" bigserial primary key, "customer_id" bigint NOT NULL, "description" text, "started_at" timestamp, "finished_at" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_7e0b87a5c6"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+)[0m
+  [1m[35m (7.1ms)[0m  [1m[35mCREATE  INDEX  "index_service_orders_on_customer_id" ON "service_orders"  ("customer_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220813191340"]]
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-08-13 19:14:11.620201"], ["updated_at", "2022-08-13 19:14:11.620201"]]
+  [1m[35m (3.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6804733439492730525)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6804733439492730525)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(6804733439492730525)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:14:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.7ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Create (0.6ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "identification_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Daniel Fernandes Vieira"], ["email", "daniel@gmail.com"], ["identification_code", "00327027363"], ["created_at", "2022-08-13 19:51:41.495926"], ["updated_at", "2022-08-13 19:51:41.495926"]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Create (0.4ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "identification_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Daniel Fernandes Vieira"], ["email", "daniel1@gmail.com"], ["identification_code", "00327027363"], ["created_at", "2022-08-13 19:52:36.348747"], ["updated_at", "2022-08-13 19:52:36.348747"]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (3.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" ORDER BY "customers"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCustomer Load (0.8ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCustomer Destroy (2.9ms)[0m  [1m[31mDELETE FROM "customers" WHERE "customers"."id" = $1[0m  [["id", 1]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCustomer Destroy (0.7ms)[0m  [1m[31mDELETE FROM "customers" WHERE "customers"."id" = $1[0m  [["id", 2]]
+  [1m[35m (3.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "identification_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Daniel Fernandes Vieira"], ["email", "daniel@gmail.com"], ["identification_code", "00327027363"], ["created_at", "2022-08-13 19:54:32.597496"], ["updated_at", "2022-08-13 19:54:32.597496"]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" ORDER BY "customers"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+Started POST "/service_orders" for ::1 at 2022-08-13 17:04:16 -0300
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ServiceOrdersController#create as */*
+  Parameters: {"service_order"=>{"email"=>"daniel@gmail.com", "description"=>"Lorem ipsum dolor sit amet..."}}
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 3.0ms | Allocations: 5335)
+
+
+  
+ActiveModel::UnknownAttributeError (unknown attribute 'email' for ServiceOrder.):
+  
+app/controllers/service_orders_controller.rb:18:in `create'
+Started POST "/service_orders" for ::1 at 2022-08-13 17:05:21 -0300
+Processing by ServiceOrdersController#create as */*
+  Parameters: {"service_order"=>{"email"=>"daniel@gmail.com", "description"=>"Lorem ipsum dolor sit amet..."}}
+  [1m[36mCustomer Load (0.4ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/service_order.rb:5:in `generator'
+Completed 500 Internal Server Error in 20ms (ActiveRecord: 6.1ms | Allocations: 10185)
+
+
+  
+ActiveModel::UnknownAttributeError (unknown attribute 'email' for ServiceOrder.):
+  
+app/models/service_order.rb:7:in `generator'
+app/controllers/service_orders_controller.rb:18:in `create'
+Started POST "/service_orders" for ::1 at 2022-08-13 17:05:41 -0300
+Processing by ServiceOrdersController#create as */*
+  Parameters: {"service_order"=>{"email"=>"daniel@gmail.com", "description"=>"Lorem ipsum dolor sit amet..."}}
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms | Allocations: 465)
+
+
+  
+TypeError (no implicit conversion of Symbol into String):
+  
+app/models/service_order.rb:5:in `delete'
+app/models/service_order.rb:5:in `generator'
+app/controllers/service_orders_controller.rb:18:in `create'
+Started POST "/service_orders" for ::1 at 2022-08-13 17:06:06 -0300
+Processing by ServiceOrdersController#create as */*
+  Parameters: {"service_order"=>{"email"=>"daniel@gmail.com", "description"=>"Lorem ipsum dolor sit amet..."}}
+  [1m[36mCustomer Load (0.4ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/service_order.rb:5:in `generator'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/service_order.rb:7:in `generator'
+  [1m[36mServiceOrder Create (0.8ms)[0m  [1m[32mINSERT INTO "service_orders" ("customer_id", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["customer_id", 3], ["description", "Lorem ipsum dolor sit amet..."], ["created_at", "2022-08-13 20:06:06.691474"], ["updated_at", "2022-08-13 20:06:06.691474"]]
+  ↳ app/models/service_order.rb:7:in `generator'
+  [1m[35m (4.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/service_order.rb:7:in `generator'
+Completed 201 Created in 35ms (Views: 0.5ms | ActiveRecord: 11.6ms | Allocations: 14509)
+
+
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Create (0.4ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "identification_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Daniel Fernandes Vieira"], ["email", "daniel1@gmail.com"], ["identification_code", "00327027363"], ["created_at", "2022-08-13 20:07:26.372826"], ["updated_at", "2022-08-13 20:07:26.372826"]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (3.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+Started POST "/service_orders" for ::1 at 2022-08-13 17:07:36 -0300
+Processing by ServiceOrdersController#create as */*
+  Parameters: {"service_order"=>{"email"=>"daniel1@gmail.com", "description"=>"Lorem ipsum dolor sit amet..."}}
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/service_order.rb:5:in `generator'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/service_order.rb:7:in `generator'
+  [1m[36mServiceOrder Create (0.3ms)[0m  [1m[32mINSERT INTO "service_orders" ("customer_id", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["customer_id", 4], ["description", "Lorem ipsum dolor sit amet..."], ["created_at", "2022-08-13 20:07:36.481608"], ["updated_at", "2022-08-13 20:07:36.481608"]]
+  ↳ app/models/service_order.rb:7:in `generator'
+  [1m[35m (3.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/service_order.rb:7:in `generator'
+Completed 201 Created in 22ms (Views: 0.5ms | ActiveRecord: 7.9ms | Allocations: 12284)
+
+
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel1@gmail.com"], ["id", 4], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel@gmail.com"], ["id", 3], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."email" = $1 LIMIT $2[0m  [["email", "daniel1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:8:in `create_or_update_from_bunny'
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = $1 AND "customers"."id" != $2 LIMIT $3[0m  [["email", "daniel1@gmail.com"], ["id", 4], ["LIMIT", 1]]
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
+  [1m[35m (0.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/customer.rb:13:in `create_or_update_from_bunny'
